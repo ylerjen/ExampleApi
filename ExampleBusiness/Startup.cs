@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ExampleApi.Models;
 using ExampleBusiness;
-using ExampleBusiness.Entities;
 using ExampleBusiness.Services;
+using ExampleRepository.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -13,7 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace ExampleApi
+namespace ExampleBusiness
 {
     public class Startup
     {
@@ -28,7 +27,7 @@ namespace ExampleApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            services.AddTransient<IAuthorsService, AuthorsService>();
+            //services.AddTransient<IAuthorsRepository, AuthorsRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -38,11 +37,6 @@ namespace ExampleApi
             {
                 app.UseDeveloperExceptionPage();
             }
-
-            AutoMapper.Mapper.Initialize(cfg =>
-            {
-                cfg.CreateMap<Author, AuthorDto>();
-            });
 
             app.UseMvc();
         }
