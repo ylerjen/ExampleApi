@@ -1,13 +1,15 @@
-﻿using ExampleApi.Models;
-using ExampleDomain.Entities;
-using ExampleBusiness.Services;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using ExampleRepository.Repositories;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
-namespace ExampleApi
+namespace WebApplication1
 {
     public class Startup
     {
@@ -22,7 +24,6 @@ namespace ExampleApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            services.AddScoped<IAuthorsService>(provider => new AuthorsService(new AuthorsRepository()));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -32,11 +33,6 @@ namespace ExampleApi
             {
                 app.UseDeveloperExceptionPage();
             }
-
-            AutoMapper.Mapper.Initialize(cfg =>
-            {
-                cfg.CreateMap<Author, AuthorDto>();
-            });
 
             app.UseMvc();
         }

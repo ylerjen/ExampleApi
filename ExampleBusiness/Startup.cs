@@ -1,16 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ExampleBusiness;
-using ExampleBusiness.Services;
-using ExampleRepository.Repositories;
+﻿using ExampleRepository.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 namespace ExampleBusiness
 {
@@ -27,7 +19,7 @@ namespace ExampleBusiness
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            //services.AddTransient<IAuthorsRepository, AuthorsRepository>();
+            services.AddScoped<IAuthorsRepository, AuthorsRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
