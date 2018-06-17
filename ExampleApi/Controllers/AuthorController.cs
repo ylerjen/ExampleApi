@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
 using ExampleApi.Models;
-using ExampleBusiness;
 using ExampleBusiness.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 
 namespace ExampleApi.Controllers
 {
@@ -22,7 +20,7 @@ namespace ExampleApi.Controllers
         [HttpGet]
         public ActionResult GetAuthorList()
         {
-            var authorList = this.authorsServices.GetAuthorList();
+            var authorList = this.authorsServices.GetAuthorsList();
             return Ok(authorList);
         }
 

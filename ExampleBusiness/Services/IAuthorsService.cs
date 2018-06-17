@@ -1,4 +1,4 @@
-﻿using ExampleBusiness.Entities;
+﻿using ExampleDomain.Entities;
 using System;
 using System.Collections.Generic;
 
@@ -10,6 +10,6 @@ namespace ExampleBusiness.Services
 
         Author GetAuthorById(Guid id);
 
-        List<Author> GetAuthorList();
+        List<Author> GetAuthorsList();
     }
 }
