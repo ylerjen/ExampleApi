@@ -22,5 +22,10 @@ namespace ExampleBusiness.Tests.Unit.Stubs
         {
             throw new NotImplementedException();
         }
+
+        public Author InsertAuthor(Author author)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

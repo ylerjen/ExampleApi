@@ -1,8 +1,12 @@
 ﻿using AutoMapper;
+using ExampleApi.Helpers;
 using ExampleApi.Models;
+using ExampleApi.Commands;
 using ExampleBusiness.Services;
+using ExampleDomain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using ExampleDomain.Validations;
 
 namespace ExampleApi.Controllers
 {
@@ -18,7 +22,7 @@ namespace ExampleApi.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetAuthorList()
+        public IActionResult GetAuthorList()
         {
             var authorList = this.authorsServices.GetAuthorsList();
             return Ok(authorList);
@@ -26,16 +30,46 @@ namespace ExampleApi.Controllers
 
         [HttpGet]
         [Route("{id}")]
-        public ActionResult GetAuthor(Guid id)
+        public IActionResult GetAuthor(Guid id)
         {
-            if (id == null || !this.authorsServices.AuthorExists(id))
+            if (id == null)
             {
                 return BadRequest();
+            }
+            if (!this.authorsServices.AuthorExists(id))
+            {
+                return NotFound($"Author with id ${id} not found");
             }
 
             var author = this.authorsServices.GetAuthorById(id);
             var authorDto = Mapper.Map<AuthorDto>(author);
             return Ok(authorDto);
+        }
+
+        [HttpPost]
+        public IActionResult CreateAuthor([FromBody]AuthorForCreationDto authorForCreationDto)
+        {
+            if(authorForCreationDto == null)
+            {
+                return BadRequest();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return new UnprocessableEntityObjectResult(ModelState);
+            }
+
+            var author = Mapper.Map<Author>(authorForCreationDto);
+            try
+            {
+                this.authorsServices.CreateAuthor(author);
+            }
+            catch (ValidationException ex)
+            {
+                ModelState.AddModelError(ex.Field, ex.Message);
+                return new UnprocessableEntityObjectResult(ModelState);
+            }
+            return Created($"{Request.Path.Value}/{author.Id}", author);
         }
     }
 }

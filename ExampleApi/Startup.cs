@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ExampleRepository.Repositories;
+using ExampleApi.Commands;
 
 namespace ExampleApi
 {
@@ -36,6 +37,7 @@ namespace ExampleApi
             AutoMapper.Mapper.Initialize(cfg =>
             {
                 cfg.CreateMap<Author, AuthorDto>();
+                cfg.CreateMap<AuthorForCreationDto, Author>();
             });
 
             app.UseMvc();
