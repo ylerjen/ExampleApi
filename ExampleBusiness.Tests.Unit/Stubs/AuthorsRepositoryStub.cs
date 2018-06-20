@@ -15,7 +15,7 @@ namespace ExampleBusiness.Tests.Unit.Stubs
 
         public Author GetAuthorById(Guid id)
         {
-            throw new NotImplementedException();
+            return new Author() { Id = id, Lastname = "King", Firstname = "Stephen" };
         }
 
         public List<Author> GetAuthorsList()
