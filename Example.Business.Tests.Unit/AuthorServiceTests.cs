@@ -8,7 +8,7 @@ namespace Example.Business.Tests.Unit
 {
     public class AuthorServiceTests
     {
-        private Mock<IAuthorsRepository> AuthorsRepositoryMock { get; set; }
+        Mock<IAuthorsRepository> AuthorsRepositoryMock { get; set; }
 
         public AuthorServiceTests()
         {

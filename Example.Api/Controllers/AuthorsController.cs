@@ -12,11 +12,11 @@ namespace ExampleApi.Controllers
 {
     [Produces("application/json")]
     [Route("api/authors")]
-    public class AuthorController : Controller
+    public class AuthorsController : Controller
     {
-        private IAuthorsService authorsServices { get; set; }
+        IAuthorsService authorsServices { get; set; }
 
-        public AuthorController(IAuthorsService authorsServices)
+        public AuthorsController(IAuthorsService authorsServices)
         {
             this.authorsServices = authorsServices;
         }
@@ -38,7 +38,7 @@ namespace ExampleApi.Controllers
             }
             if (!this.authorsServices.AuthorExists(id))
             {
-                return NotFound("Author with id ${id} not found");
+                return NotFound($"Author with id {id} not found");
             }
 
             var author = this.authorsServices.GetAuthorById(id);
