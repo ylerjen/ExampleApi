@@ -1,6 +1,6 @@
 using Example.Business.Services;
-using Example.Business.Tests.Unit.Stubs;
 using Example.Repository.Repositories;
+using Moq;
 using System;
 using Xunit;
 
@@ -8,17 +8,18 @@ namespace Example.Business.Tests.Unit
 {
     public class AuthorServiceTests
     {
-        private IAuthorsRepository AuthorsRepository { get; set; }
+        private Mock<IAuthorsRepository> AuthorsRepositoryMock { get; set; }
 
         public AuthorServiceTests()
         {
-            this.AuthorsRepository = new AuthorsRepositoryStub();
+            var mockRepo = new MockRepository(MockBehavior.Strict);
+            this.AuthorsRepositoryMock = mockRepo.Create<IAuthorsRepository>();
         }
 
         [Fact]
         public void AuthorExists_should_return_true_if_author_exists()
         {
-            var authorSrvc = new AuthorsService(this.AuthorsRepository);
+            var authorSrvc = new AuthorsService(this.AuthorsRepositoryMock.Object);
             var id = new Guid();
 
             Assert.True(authorSrvc.AuthorExists(id));
@@ -27,7 +28,7 @@ namespace Example.Business.Tests.Unit
         [Fact]
         public void GetAuthorById_should_return_an_author()
         {
-            var authorSrvc = new AuthorsService(this.AuthorsRepository);
+            var authorSrvc = new AuthorsService(this.AuthorsRepositoryMock.Object);
             var id = new Guid();
 
             Assert.NotNull(authorSrvc.GetAuthorById(id));
