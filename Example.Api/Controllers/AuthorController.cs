@@ -14,17 +14,17 @@ namespace ExampleApi.Controllers
     [Route("api/authors")]
     public class AuthorController : Controller
     {
-        private IAuthorsService authorsServices { get; set; }
+        private IAuthorsService AuthorsServices { get; set; }
 
         public AuthorController(IAuthorsService authorsServices)
         {
-            this.authorsServices = authorsServices;
+            this.AuthorsServices = authorsServices;
         }
 
         [HttpGet]
         public IActionResult GetAuthorList()
         {
-            var authorList = this.authorsServices.GetAuthorsList();
+            var authorList = this.AuthorsServices.GetAuthorsList();
             return Ok(authorList);
         }
 
@@ -36,12 +36,12 @@ namespace ExampleApi.Controllers
             {
                 return BadRequest();
             }
-            if (!this.authorsServices.AuthorExists(id))
+            if (!this.AuthorsServices.AuthorExists(id))
             {
                 return NotFound("Author with id ${id} not found");
             }
 
-            var author = this.authorsServices.GetAuthorById(id);
+            var author = this.AuthorsServices.GetAuthorById(id);
             var authorDto = Mapper.Map<AuthorDto>(author);
             return Ok(authorDto);
         }
@@ -62,7 +62,7 @@ namespace ExampleApi.Controllers
             var author = Mapper.Map<Author>(authorForCreationDto);
             try
             {
-                this.authorsServices.CreateAuthor(author);
+                this.AuthorsServices.CreateAuthor(author);
             }
             catch (ValidationException ex)
             {

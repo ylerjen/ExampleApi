@@ -8,11 +8,12 @@ namespace Example.Domain.Entities
         {
         }
 
-        public Author(Guid id, string lastname, string firstname)
+        public Author(Guid id, string lastname, string firstname, DateTime birthdate)
         {
-            this.Id = id;
-            this.Lastname = lastname;
-            this.Firstname = firstname;
+            Id = id;
+            Lastname = lastname;
+            Firstname = firstname;
+            Birthdate = birthdate;
         }
 
         public Guid Id { get; set; }
@@ -23,6 +24,6 @@ namespace Example.Domain.Entities
 
         public DateTime Birthdate { get; set; }
 
-        public string Descr { get; set; }
+        public string Descr { get; set; } = string.Empty;
     }
 }

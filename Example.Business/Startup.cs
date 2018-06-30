@@ -1,4 +1,5 @@
-﻿using Example.Repository.Repositories;
+﻿using Example.Helpers;
+using Example.Repository.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -19,6 +20,7 @@ namespace Example.Business
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddScoped<IDateTimeProvider, DateTimeProvider>();
             services.AddScoped<IAuthorsRepository, AuthorsRepository>();
         }
 

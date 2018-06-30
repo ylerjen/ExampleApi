@@ -25,7 +25,9 @@ namespace Example.Business.Tests.Unit.Stubs
 
         public Author InsertAuthor(Author author)
         {
-            throw new NotImplementedException();
+            var id = new Guid("30b927c0-295a-4798-bc2e-44e96fb90474");
+            author.Id = id;
+            return author;
         }
     }
 }

@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Example.Repository.Repositories;
 using Example.Api.Commands;
+using Example.Helpers;
 
 namespace Example.Api
 {
@@ -23,7 +24,7 @@ namespace Example.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            services.AddScoped<IAuthorsService>(provider => new AuthorsService(new AuthorsRepository()));
+            services.AddScoped<IAuthorsService>(provider => new AuthorsService(new DateTimeProvider(), new AuthorsRepository()));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -9,8 +9,8 @@ namespace Example.Repository.Repositories
     {
 
         private readonly List<Author> authorList = new List<Author>() {
-            new Author(Guid.NewGuid(), "King", "Stephen"){ Descr = "Master of suspense" },
-            new Author(Guid.NewGuid(), "Martin", "George RR"){ Descr = "An American novelist and short-story writer in the fantasy, horror, and science fiction genres" }
+            new Author(new Guid("0ec5e125-5eee-4102-b48d-011a600fd74a"), "King", "Stephen", new DateTime()){ Descr = "Master of suspense" },
+            new Author(new Guid("8f8cfba1-b30e-4289-a7ca-3aa122adb30a"), "Martin", "George RR", new DateTime()){ Descr = "An American novelist and short-story writer in the fantasy, horror, and science fiction genres" }
         };
 
         public List<Author> GetAuthorsList()
@@ -39,7 +39,7 @@ namespace Example.Repository.Repositories
         public Author InsertAuthor(Author author)
         {
             author.Id = Guid.NewGuid();
-            this.authorList.Add(author);
+            authorList.Add(author);
             return author;
         }
     }
