@@ -22,19 +22,19 @@ namespace Example.Api.Tests.Unit
         }
 
         [Fact]
-        public void GetAuthor_should_be_callable()
+        public void GetAuthor_should_return_a_200OK_if_everything_goes_well()
         {
             // Arrange
             this.authorsServiceMock
-                .Setup(m => m.GetAuthorsList())  // will set up CommandBase.Execute
+                .Setup(m => m.GetAuthorsList())
                 .Returns(new List<Author>());
             var authorsCtrlr = new AuthorsController(this.authorsServiceMock.Object);
 
             // Act
-            var resp = authorsCtrlr.GetAuthorList();
+            var result = authorsCtrlr.GetAuthorList();
 
             // Assert
-            //Assert.Equal(200, resp.ExecuteResultAsync().Status);
+            Assert.IsType<OkObjectResult>(result);
         }
 
         [Fact]
@@ -50,8 +50,7 @@ namespace Example.Api.Tests.Unit
             var result = authorsCtrlr.GetAuthor(Guid.Empty);
 
             // Assert
-            var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
-            Assert.IsType<SerializableError>(badRequestResult.Value);
+            Assert.IsType<BadRequestResult>(result);
         }
     }
 }
