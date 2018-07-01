@@ -1,22 +1,22 @@
-﻿using AutoMapper;
+﻿using System;
+using AutoMapper;
+using Example.Api.Commands;
 using Example.Api.Helpers;
 using Example.Api.Models;
-using Example.Api.Commands;
 using Example.Business.Services;
 using Example.Domain.Entities;
-using Microsoft.AspNetCore.Mvc;
-using System;
 using Example.Domain.Validations;
+using Microsoft.AspNetCore.Mvc;
 
-namespace ExampleApi.Controllers
+namespace Example.Api.Controllers
 {
     [Produces("application/json")]
     [Route("api/authors")]
-    public class AuthorController : Controller
+    public class AuthorsController : Controller
     {
-        private IAuthorsService AuthorsServices { get; set; }
+        IAuthorsService AuthorsServices { get; }
 
-        public AuthorController(IAuthorsService authorsServices)
+        public AuthorsController(IAuthorsService authorsServices)
         {
             this.AuthorsServices = authorsServices;
         }
@@ -32,13 +32,13 @@ namespace ExampleApi.Controllers
         [Route("{id}")]
         public IActionResult GetAuthor(Guid id)
         {
-            if (id == null)
+            if (id == Guid.Empty)
             {
                 return BadRequest();
             }
             if (!this.AuthorsServices.AuthorExists(id))
             {
-                return NotFound("Author with id ${id} not found");
+                return NotFound($"Author with id {id} not found");
             }
 
             var author = this.AuthorsServices.GetAuthorById(id);
