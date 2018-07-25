@@ -1,17 +1,15 @@
-﻿using System;
-using Example.Domain.Entities;
-using Example.Domain.Validations;
+﻿using Example.Domain.Entities;
 using Example.Helpers;
 using NRules.Fluent.Dsl;
 using NRules.RuleModel;
 
-namespace Example.Rules
+namespace Example.Domain.Rules.Authors
 {
-    public class AuthorRules : Rule
+    public class AuthorsLastnameCantContainL : AuthorsRule
     {
         private readonly IDateTimeProvider dateTimeProvider;
 
-        public AuthorRules(IDateTimeProvider dateTimeProvider)
+        public AuthorsLastnameCantContainL(IDateTimeProvider dateTimeProvider)
         {
             this.dateTimeProvider = dateTimeProvider;
         }
