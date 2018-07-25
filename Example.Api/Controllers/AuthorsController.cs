@@ -6,12 +6,14 @@ using Example.Api.Models;
 using Example.Business.Services;
 using Example.Domain.Entities;
 using Example.Domain.Validations;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Example.Api.Controllers
 {
     [Produces("application/json")]
     [Route("api/authors")]
+    [EnableCors("AllowSpecificOrigin")]
     public class AuthorsController : Controller
     {
         IAuthorsService AuthorsServices { get; }
