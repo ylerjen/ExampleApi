@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using Example.Domain.Entities;
+using Example.Domain.Rules.Authors;
 using Example.Domain.Validations;
 using Example.Helpers;
 using Example.Repository.Repositories;
-using Microsoft.AspNetCore.Authentication;
+using NRules.Fluent;
 
 namespace Example.Business.Services
 {
@@ -57,6 +58,28 @@ namespace Example.Business.Services
         public void ModifyAuthor(string action, string prop, object newValue)
         {
             throw new NotImplementedException();
+        }
+
+        private void TestNRules()
+        {
+            //Load rules
+            var repository = new RuleRepository();
+            repository.Load(x => x.From(typeof(AuthorsRule).Assembly));
+
+            //Compile rules
+            var factory = repository.Compile();
+
+            //Create a working session
+            var session = factory.CreateSession();
+
+            //Load domain model
+            var customer = new Author { Lastname = "LeDoh", Firstname = "John" };
+
+            //Insert facts into rules engine's memory
+            session.Insert(customer);
+
+            //Start match/resolve/act cycle
+            session.Fire();
         }
     }
 }
