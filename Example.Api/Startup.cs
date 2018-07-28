@@ -1,5 +1,4 @@
-﻿using Example.Api.Models;
-using Example.Domain.Entities;
+﻿using Example.Domain.Entities;
 using Example.Business.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -10,7 +9,6 @@ using Example.Api.Commands;
 using Example.Api.Contracts;
 using Example.Helpers;
 using Example.Api.Middlewares;
-using Example.Domain.Validations;
 
 namespace Example.Api
 {
@@ -32,7 +30,7 @@ namespace Example.Api
                 corsMw.AddAllowAllOriginsPolicy();
             });
             services.AddMvc();
-            services.AddScoped<IAuthorsService>(provider => new AuthorsService(new DateTimeProvider(), new AuthorsRepository()));
+            services.AddScoped<IUsersService>(provider => new UsersService(new DateTimeProvider(), new UsersRepository()));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,8 +48,8 @@ namespace Example.Api
 
             AutoMapper.Mapper.Initialize(cfg =>
             {
-                cfg.CreateMap<Author, AuthorDto>();
-                cfg.CreateMap<AuthorForCreationDto, Author>();
+                cfg.CreateMap<User, UserDto>();
+                cfg.CreateMap<UserForCreationDto, User>();
             });
 
             app.UseMvc();

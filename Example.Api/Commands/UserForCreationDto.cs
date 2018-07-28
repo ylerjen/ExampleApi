@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Example.Api.Commands
 {
-    public class AuthorForCreationDto
+    public class UserForCreationDto
     {
         [Required]
         [MaxLength(100)]

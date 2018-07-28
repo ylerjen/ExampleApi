@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Example.Domain.Exceptions;
-using Example.Domain.Rules.Authors;
+using Example.Domain.Rules.Users;
 using Example.Domain.Validations;
 using NRules;
 using NRules.Fluent;
@@ -20,7 +20,7 @@ namespace Example.Business
         {
             //Load rules
             var repository = new RuleRepository();
-            repository.Load(x => x.From(typeof(AuthorsLastnameCantContainL).Assembly));
+            repository.Load(x => x.From(typeof(UserShouldBeBornIn1984).Assembly));
 
             //Compile rules
             var factory = repository.Compile();

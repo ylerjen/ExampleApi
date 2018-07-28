@@ -2,23 +2,21 @@
 using Example.Domain.Codes;
 using Example.Domain.Entities;
 using Example.Domain.Validations;
-using Example.Helpers;
-using NRules.Fluent.Dsl;
 using NRules.RuleModel;
 
-namespace Example.Domain.Rules.Authors
+namespace Example.Domain.Rules.Users
 {
-    public class AuthorsLastnameCantContainL : AuthorsRule
+    public class UserShouldBeBornIn1984 : UsersRule
     {
         public override void Define()
         {
-            Author author = null;
+            User user = null;
 
             this.
                 When()
-                .Match<Author>(
-                    () => author,
-                    a => a.Lastname.Contains("L")
+                .Match<User>(
+                    () => user,
+                    a => a.Birthdate.Year == 1984
                 );
 
             this.
@@ -30,9 +28,9 @@ namespace Example.Domain.Rules.Authors
         {
             var validationsError = new BusinessValidationError()
             {
-                Error = "Author name can't contain a L",
-                Fields = new List<string> {nameof(Author.Lastname)},
-                ErrorCode = BusinessErrorCodes.InvalidCharacterError
+                Error = "User birth year should be 1984",
+                Fields = new List<string> {nameof(User.Birthdate)},
+                ErrorCode = BusinessErrorCodes.InvalidBirthYear
             };
 
             ctx.Insert(validationsError);

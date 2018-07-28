@@ -21,7 +21,7 @@ namespace Example.Business
         {
             services.AddMvc();
             services.AddScoped<IDateTimeProvider, DateTimeProvider>();
-            services.AddScoped<IAuthorsRepository, AuthorsRepository>();
+            services.AddScoped<IUsersRepository, UsersRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

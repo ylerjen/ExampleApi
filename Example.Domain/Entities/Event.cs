@@ -4,14 +4,14 @@ using System.Text;
 
 namespace Example.Domain.Entities
 {
-    public class Book
+    public class Event
     {
-        public Book()
+        public Event()
         {
 
         }
 
-        public Book(Guid id, string title)
+        public Event(Guid id, string title)
         {
             this.Id = id;
             this.Title = title;
@@ -21,8 +21,8 @@ namespace Example.Domain.Entities
 
         public string Title { get; set; }
 
-        public Guid AuthorId { get; set; }
+        public Guid CreatorId { get; set; }
 
-        public List<EBookCategory> CategoryList { get; set; }
+        public EventCategory Category { get; set; }
     }
 }

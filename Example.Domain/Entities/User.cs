@@ -2,13 +2,13 @@
 
 namespace Example.Domain.Entities
 {
-    public class Author
+    public class User
     {
-        public Author()
+        public User()
         {
         }
 
-        public Author(Guid id, string lastname, string firstname, DateTime birthdate)
+        public User(Guid id, string lastname, string firstname, DateTime birthdate)
         {
             this.Id = id;
             this.Lastname = lastname;

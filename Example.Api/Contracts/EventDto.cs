@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Example.Api.Contracts
 {
-    public class BookDto
+    public class EventDto
     {
 
         public Guid Id { get; set; }
@@ -15,6 +15,6 @@ namespace Example.Api.Contracts
 
         public Guid AuthorId { get; set; }
 
-        public List<EBookCategory> CategoryList { get; set; }
+        public List<EventCategory> CategoryList { get; set; }
     }
 }

@@ -9,7 +9,7 @@ namespace Example.Domain.Tests.Unit.Entities
         [Fact]
         public void AuthorCtor_should_construct_the_object_correctly()
         {
-            var author = new Author();
+            var author = new User();
 
             Assert.Equal(Guid.Empty, author.Id);
             Assert.Null(author.Lastname);
@@ -26,7 +26,7 @@ namespace Example.Domain.Tests.Unit.Entities
             const string fname = "Chuck";
             var birthdate = new DateTime();
 
-            var author = new Author(id, lname, fname, birthdate);
+            var author = new User(id, lname, fname, birthdate);
 
             Assert.Equal(id, author.Id);
             Assert.Equal(lname, author.Lastname);
