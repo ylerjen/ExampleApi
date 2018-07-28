@@ -1,4 +1,7 @@
-﻿using Example.Domain.Entities;
+﻿using System.Collections.Generic;
+using Example.Domain.Codes;
+using Example.Domain.Entities;
+using Example.Domain.Validations;
 using Example.Helpers;
 using NRules.Fluent.Dsl;
 using NRules.RuleModel;
@@ -7,30 +10,32 @@ namespace Example.Domain.Rules.Authors
 {
     public class AuthorsLastnameCantContainL : AuthorsRule
     {
-        private readonly IDateTimeProvider dateTimeProvider;
-
-        public AuthorsLastnameCantContainL(IDateTimeProvider dateTimeProvider)
-        {
-            this.dateTimeProvider = dateTimeProvider;
-        }
-
         public override void Define()
         {
             Author author = null;
 
-            When()
+            this.
+                When()
                 .Match<Author>(
                     () => author,
                     a => a.Lastname.Contains("L")
                 );
 
-            Then()
+            this.
+                Then()
                 .Do(ctx => this.AddValidationError(ctx));
         }
 
         public void AddValidationError(IContext ctx)
         {
-            ctx.Insert("Author name can't contain a L");
+            var validationsError = new BusinessValidationError()
+            {
+                Error = "Author name can't contain a L",
+                Fields = new List<string> {nameof(Author.Lastname)},
+                ErrorCode = BusinessErrorCodes.InvalidCharacterError
+            };
+
+            ctx.Insert(validationsError);
         }
     }
 }

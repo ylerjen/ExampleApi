@@ -1,7 +1,6 @@
 ﻿using System;
 using AutoMapper;
 using Example.Api.Commands;
-using Example.Api.Helpers;
 using Example.Api.Models;
 using Example.Business.Services;
 using Example.Domain.Entities;
@@ -27,7 +26,7 @@ namespace Example.Api.Controllers
         public IActionResult GetAuthorList()
         {
             var authorList = this.AuthorsServices.GetAuthorsList();
-            return Ok(authorList);
+            return this.Ok(authorList);
         }
 
         [HttpGet]
@@ -36,16 +35,16 @@ namespace Example.Api.Controllers
         {
             if (id == Guid.Empty)
             {
-                return BadRequest();
+                return this.BadRequest();
             }
             if (!this.AuthorsServices.AuthorExists(id))
             {
-                return NotFound($"Author with id {id} not found");
+                return this.NotFound($"Author with id {id} not found");
             }
 
             var author = this.AuthorsServices.GetAuthorById(id);
             var authorDto = Mapper.Map<AuthorDto>(author);
-            return Ok(authorDto);
+            return this.Ok(authorDto);
         }
 
         [HttpPost]
@@ -53,25 +52,18 @@ namespace Example.Api.Controllers
         {
             if(authorForCreationDto == null)
             {
-                return BadRequest();
+                return this.BadRequest();
             }
 
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
-                return new UnprocessableEntityObjectResult(ModelState);
+                return new Helpers.UnprocessableEntityObjectResult(this.ModelState);
             }
 
             var author = Mapper.Map<Author>(authorForCreationDto);
-            try
-            {
-                this.AuthorsServices.CreateAuthor(author);
-            }
-            catch (ValidationException ex)
-            {
-                ModelState.AddModelError(ex.Field, ex.Message);
-                return new UnprocessableEntityObjectResult(ModelState);
-            }
-            return Created($"{Request.Path.Value}/{author.Id}", author);
+            this.AuthorsServices.CreateAuthor(author);
+
+            return this.Created($"{this.Request.Path.Value}/{author.Id}", author);
         }
     }
 }

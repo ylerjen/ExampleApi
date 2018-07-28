@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Example.Domain.Entities;
 using Example.Domain.Rules.Authors;
 using Example.Domain.Validations;
 using Example.Helpers;
 using Example.Repository.Repositories;
+using NRules;
 using NRules.Fluent;
 
 namespace Example.Business.Services
 {
-    public class AuthorsService : IAuthorsService
+    public class AuthorsService : RuleService, IAuthorsService
     {
         private IAuthorsRepository AuthorsRepository { get; }
 
@@ -38,10 +40,10 @@ namespace Example.Business.Services
 
         public Author CreateAuthor(Author author)
         {
-            if (author.Birthdate > this.DateTimeProvider.Now())
-            {
-                throw new ValidationException("birthdate should be in the future", nameof(author.Birthdate));
-            }
+            //Insert facts into rules engine's memory
+            this.RulesSession.Insert(author);
+            this.RunRulesSession(true);
+
             return this.AuthorsRepository.InsertAuthor(author);
         }
 
@@ -58,28 +60,6 @@ namespace Example.Business.Services
         public void ModifyAuthor(string action, string prop, object newValue)
         {
             throw new NotImplementedException();
-        }
-
-        private void TestNRules()
-        {
-            //Load rules
-            var repository = new RuleRepository();
-            repository.Load(x => x.From(typeof(AuthorsRule).Assembly));
-
-            //Compile rules
-            var factory = repository.Compile();
-
-            //Create a working session
-            var session = factory.CreateSession();
-
-            //Load domain model
-            var customer = new Author { Lastname = "LeDoh", Firstname = "John" };
-
-            //Insert facts into rules engine's memory
-            session.Insert(customer);
-
-            //Start match/resolve/act cycle
-            session.Fire();
         }
     }
 }

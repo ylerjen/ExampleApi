@@ -7,8 +7,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Example.Repository.Repositories;
 using Example.Api.Commands;
+using Example.Api.Contracts;
 using Example.Helpers;
 using Example.Api.Middlewares;
+using Example.Domain.Validations;
 
 namespace Example.Api
 {
@@ -39,6 +41,11 @@ namespace Example.Api
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseResponseBodyFormatterMiddleWare();
+            }
+            else
+            {
+                app.UseResponseBodyFormatterMiddleWare();
             }
 
             AutoMapper.Mapper.Initialize(cfg =>

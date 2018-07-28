@@ -10,10 +10,10 @@ namespace Example.Domain.Entities
 
         public Author(Guid id, string lastname, string firstname, DateTime birthdate)
         {
-            Id = id;
-            Lastname = lastname;
-            Firstname = firstname;
-            Birthdate = birthdate;
+            this.Id = id;
+            this.Lastname = lastname;
+            this.Firstname = firstname;
+            this.Birthdate = birthdate;
         }
 
         public Guid Id { get; set; }

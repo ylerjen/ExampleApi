@@ -3,6 +3,7 @@ using Example.Repository.Repositories;
 using Moq;
 using System;
 using Example.Domain.Entities;
+using Example.Domain.Exceptions;
 using Example.Domain.Validations;
 using Example.Helpers;
 using Xunit;
