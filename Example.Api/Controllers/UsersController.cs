@@ -47,6 +47,22 @@ namespace Example.Api.Controllers
             return this.Ok(userDto);
         }
 
+        /// <summary>
+        /// Create a new user
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST /users
+        ///     {
+        ///        "lastname": "Norris",
+        ///        "firstname": "Chuck",
+        ///        "birthdate": "1940-03-10"
+        ///     }
+        ///
+        /// </remarks>
+        /// <param name="userForCreationDto">The user to create</param>
+        /// <returns>A http response</returns>
         [HttpPost]
         public IActionResult CreateUser([FromBody]UserForCreationDto userForCreationDto)
         {
