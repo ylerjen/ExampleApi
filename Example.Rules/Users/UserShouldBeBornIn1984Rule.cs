@@ -6,7 +6,7 @@ using NRules.RuleModel;
 
 namespace Example.Domain.Rules.Users
 {
-    public class UserShouldBeBornIn1984 : UsersRule
+    public class UserShouldBeBornIn1984Rule : UsersRule
     {
         public override void Define()
         {
@@ -16,7 +16,7 @@ namespace Example.Domain.Rules.Users
                 When()
                 .Match<User>(
                     () => user,
-                    a => a.Birthdate.Year == 1984
+                    a => a.Birthdate.Year != 1984
                 );
 
             this.
