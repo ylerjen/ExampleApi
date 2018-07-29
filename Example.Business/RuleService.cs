@@ -20,7 +20,7 @@ namespace Example.Business
         {
             //Load rules
             var repository = new RuleRepository();
-            repository.Load(x => x.From(typeof(UserShouldBeBornIn1984).Assembly));
+            repository.Load(x => x.From(typeof(UserShouldBeBornIn1984Rule).Assembly));
 
             //Compile rules
             var factory = repository.Compile();
@@ -36,7 +36,7 @@ namespace Example.Business
 
             this.FactsList = this.RulesSession.Query<BusinessValidationError>().ToList();
 
-            if (this.FactsList.Count > 0)
+            if (isErrorThrowing && this.FactsList.Count > 0)
             { 
                 throw new ValidationException(this.FactsList);
             }
