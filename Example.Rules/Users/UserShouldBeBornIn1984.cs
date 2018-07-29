@@ -29,8 +29,8 @@ namespace Example.Domain.Rules.Users
             var validationsError = new BusinessValidationError()
             {
                 Error = "User birth year should be 1984",
-                Fields = new List<string> {nameof(User.Birthdate)},
-                ErrorCode = BusinessErrorCodes.InvalidBirthYear
+                ErrorCode = BusinessErrorCodes.InvalidBirthYear,
+                Fields = new List<string> {nameof(User.Birthdate)}
             };
 
             ctx.Insert(validationsError);

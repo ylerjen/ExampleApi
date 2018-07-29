@@ -9,12 +9,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Example.Api.Controllers
 {
-    [Produces("application/json")]
     [Route("api/users")]
     [EnableCors("AllowSpecificOrigin")]
     public class UsersController : Controller
     {
-        IUsersService UsersServices { get; }
+        private IUsersService UsersServices { get; }
 
         public UsersController(IUsersService usersServices)
         {

@@ -31,6 +31,7 @@ namespace Example.Api
             });
             services.AddMvc();
             services.AddScoped<IUsersService>(provider => new UsersService(new DateTimeProvider(), new UsersRepository()));
+            services.AddScoped<IEventsService>(provider => new EventsService(new EventsRepository()));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

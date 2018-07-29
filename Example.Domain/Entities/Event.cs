@@ -21,8 +21,16 @@ namespace Example.Domain.Entities
 
         public string Title { get; set; }
 
-        public Guid CreatorId { get; set; }
+        public string Description { get; set; }
 
         public EventCategory Category { get; set; }
+
+        public List<Subscription> SubscriptionList { get; set; }
+
+        public DateTime EventStart { get; set; }
+
+        public DateTime EventEnd { get; set; }
+
+        public User Creator { get; set; }
     }
 }

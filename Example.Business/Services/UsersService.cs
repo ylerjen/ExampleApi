@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Example.Domain.Entities;
-using Example.Domain.Rules.Users;
-using Example.Domain.Validations;
 using Example.Helpers;
 using Example.Repository.Repositories;
-using NRules;
-using NRules.Fluent;
 
 namespace Example.Business.Services
 {

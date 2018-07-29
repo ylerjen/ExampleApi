@@ -1,8 +1,6 @@
 ﻿using System.Net;
 using System.Threading.Tasks;
-using AutoMapper;
 using Example.Domain.Exceptions;
-using Example.Domain.Validations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
@@ -12,18 +10,18 @@ namespace Example.Api.Middlewares
     // You may need to install the Microsoft.AspNetCore.Http.Abstractions package into your project
     public class ResponseBodyFormatterMiddleware
     {
-        private readonly RequestDelegate _next;
+        private readonly RequestDelegate next;
 
         public ResponseBodyFormatterMiddleware(RequestDelegate next)
         {
-            this._next = next;
+            this.next = next;
         }
 
         public async Task Invoke(HttpContext httpContext)
         {
             try
             {
-                await this._next(httpContext);
+                await this.next(httpContext);
             }
             catch (ValidationException validationException)
             {

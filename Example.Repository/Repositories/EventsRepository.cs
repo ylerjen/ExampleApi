@@ -1,43 +1,54 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using Example.Domain.Entities;
 
 namespace Example.Repository.Repositories
 {
     public class EventsRepository : IEventsRepository
     {
-
-        private readonly List<Event> EventList = new List<Event>() {
-            new Event(new Guid("0ec5e125-5eee-4102-b48d-011a600fd74a"), "The Lord of the Rings : The two towers"),
-            new Event(new Guid("8f8cfba1-b30e-4289-a7ca-3aa122adb30a"), "Game Of Thrones : Event 1")
+        private readonly List<Event> eventList = new List<Event> {
+            new Event(new Guid("0ec5e125-5eee-4102-b48d-011a600fd74a"), "Road Trip 2000"),
+            new Event(new Guid("8f8cfba1-b30e-4289-a7ca-3aa122adb30a"), "Mexico 1999")
         };
 
         public bool DoesTheEventExist(Guid id)
         {
-            return this.EventList.Exists(b => b.Id.Equals(id));
+            return this.eventList.Exists(b => b.Id.Equals(id));
         }
 
         public Event GetEventById(Guid id)
         {
-            return this.EventList.Find(b => b.Id.Equals(id));
+            return this.eventList.Find(b => b.Id.Equals(id));
         }
 
         public List<Event> GetEventList()
         {
-            return this.EventList;
-        }
-
-        public List<Event> GetEventListByAuthor(Guid userId)
-        {
-            return this.EventList.FindAll(b => b.CreatorId == userId);
+            return this.eventList;
         }
 
         public Event InsertEvent(Event Event)
         {
             Event.Id = Guid.NewGuid();
-            this.EventList.Add(Event);
+            this.eventList.Add(Event);
             return Event;
+        }
+
+        public List<Event> GetEventListForUser(Guid userId)
+        {
+            return this.eventList.FindAll(b => b.Creator.Id == userId);
+        }
+
+        public List<Subscription> GetSubscriptionsByEvent(Guid eventId)
+        {
+            return new List<Subscription>()
+            {
+                new Subscription()
+                {
+                    CreationDate = new DateTime(2000,12,31),
+                    Event = new Event(Guid.NewGuid(), "Dummy Event"),
+                    User = new User(Guid.NewGuid(), "Norris", "Chuck", new DateTime(1984, 07, 01))
+                }
+            };
         }
     }
 }
