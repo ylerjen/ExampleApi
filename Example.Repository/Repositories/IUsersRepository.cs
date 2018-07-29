@@ -8,7 +8,7 @@ namespace Example.Repository.Repositories
     {
         bool UserExists(Guid id);
 
-        List<User> GetUsersList();
+        List<User> GetUsersList(int skip, int length);
 
         User GetUserById(Guid id);
 

@@ -10,7 +10,13 @@ namespace Example.Business.Services
 
         User GetUserById(Guid id);
 
-        List<User> GetUsersList();
+        /// <summary>
+        /// Retrieve a list of existing users using a paging system
+        /// </summary>
+        /// <param name="skip">is the number of pages we want to skip. Page length is based on the length param</param>
+        /// <param name="length">is the number of item we want to return</param>
+        /// <returns>The list of user found</returns>
+        List<User> GetUsersList(int skip, int length);
 
         User CreateUser(User user);
 

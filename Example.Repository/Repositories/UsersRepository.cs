@@ -12,9 +12,12 @@ namespace Example.Repository.Repositories
             new User(new Guid("8f8cfba1-b30e-4289-a7ca-3aa122adb30a"), "Martin", "George RR", new DateTime()){ Descr = "An American novelist and short-story writer in the fantasy, horror, and science fiction genres" }
         };
 
-        public List<User> GetUsersList()
+        public List<User> GetUsersList(int skip, int length)
         {
-            return this.userList;
+            return this.userList
+                .Skip(skip * length)
+                .Take(length)
+                .ToList();
         }
 
         public User GetUserById(Guid id)

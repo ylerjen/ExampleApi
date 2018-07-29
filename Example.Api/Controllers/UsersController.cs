@@ -22,10 +22,15 @@ namespace Example.Api.Controllers
             this.UsersServices = usersServices;
         }
 
+        /// <summary>
+        /// Get the list of existing users. This list use a paging system.
+        /// </summary>
+        /// <param name="usersResourceParameter"></param>
+        /// <returns>The list of users found</returns>
         [HttpGet]
-        public IActionResult GetUserList()
+        public IActionResult GetUserList(UsersResourceParameter usersResourceParameter)
         {
-            var userList = this.UsersServices.GetUsersList();
+            var userList = this.UsersServices.GetUsersList(usersResourceParameter.PageNumber, usersResourceParameter.PageSize);
             return this.Ok(userList);
         }
 
@@ -73,7 +78,7 @@ namespace Example.Api.Controllers
 
             if (!this.ModelState.IsValid)
             {
-                return new Helpers.UnprocessableEntityObjectResult(this.ModelState);
+                return new UnprocessableEntityObjectResult(this.ModelState);
             }
 
             var user = Mapper.Map<User>(userForCreationDto);
