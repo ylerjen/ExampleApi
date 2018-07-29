@@ -1,11 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace Example.Api.Helpers
+namespace Example.Api.Entities
 {
     public class UnprocessableEntityObjectResult : ObjectResult
     {
@@ -15,7 +12,7 @@ namespace Example.Api.Helpers
             {
                 throw new ArgumentNullException(nameof(modelState));
             }
-            StatusCode = 422;
+            this.StatusCode = 422;
         }
     }
 }

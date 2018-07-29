@@ -4,8 +4,10 @@ using Example.Api.Commands;
 using Example.Api.Contracts;
 using Example.Business.Services;
 using Example.Domain.Entities;
+using Example.Helpers;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using UnprocessableEntityObjectResult = Example.Api.Entities.UnprocessableEntityObjectResult;
 
 namespace Example.Api.Controllers
 {
