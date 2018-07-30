@@ -1,5 +1,7 @@
 using System;
+
 using Example.Domain.Entities;
+
 using Xunit;
 
 namespace Example.Domain.Tests.Unit.Entities

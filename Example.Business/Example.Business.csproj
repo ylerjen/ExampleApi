@@ -18,10 +18,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Example.Domain.Rules\Example.Domain.Rules.csproj" />
     <ProjectReference Include="..\Example.Domain\Example.Domain.csproj" />
     <ProjectReference Include="..\Example.Helpers\Example.Helpers.csproj" />
     <ProjectReference Include="..\Example.Repository\Example.Repository.csproj" />
-    <ProjectReference Include="..\Example.Rules\Example.Domain.Rules.csproj" />
   </ItemGroup>
 
 </Project>
