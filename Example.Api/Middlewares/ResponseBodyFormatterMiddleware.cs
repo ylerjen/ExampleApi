@@ -7,7 +7,10 @@ using Newtonsoft.Json;
 
 namespace Example.Api.Middlewares
 {
-    // You may need to install the Microsoft.AspNetCore.Http.Abstractions package into your project
+    /// <summary>
+    /// This middleware is used to format the error thrown by a business validation to a specific response json
+    /// You may need to install the Microsoft.AspNetCore.Http.Abstractions package into your project
+    /// </summary>
     public class ResponseBodyFormatterMiddleware
     {
         private readonly RequestDelegate next;
@@ -36,7 +39,9 @@ namespace Example.Api.Middlewares
         }
     }
 
-    // Extension method used to add the middleware to the HTTP request pipeline.
+    /// <summary>
+    /// Extension method used to add the middleware to the HTTP request pipeline.
+    /// </summary>
     public static class ResponseBodyFormatterMiddlewareExtensions
     {
         public static IApplicationBuilder UseResponseBodyFormatterMiddleWare(this IApplicationBuilder builder)
