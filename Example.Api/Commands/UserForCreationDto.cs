@@ -13,6 +13,7 @@ namespace Example.Api.Commands
         [MaxLength(100)]
         public string Firstname { get; set; }
 
-        public DateTime Birthdate { get; set; }
+        [Required]
+        public DateTime? Birthdate { get; set; }
     }
 }
