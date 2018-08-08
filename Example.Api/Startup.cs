@@ -10,6 +10,8 @@ using Example.Api.Commands;
 using Example.Api.Contracts;
 using Example.Helpers;
 using Example.Api.Middlewares;
+
+using Swashbuckle.AspNetCore.Examples;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace Example.Api
@@ -41,7 +43,7 @@ namespace Example.Api
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "Example API", Version = "v1" });
-                //c.SwaggerDoc("Edge", new Info { Title = "Example API", Version = ApiVersion.ToString() });
+                c.OperationFilter<ExamplesOperationFilter>();
             });
         }
 

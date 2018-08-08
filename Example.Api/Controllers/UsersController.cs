@@ -1,4 +1,7 @@
 ﻿using System;
+using System.IO;
+using System.Reflection;
+
 using AutoMapper;
 using Example.Api.Commands;
 using Example.Api.Contracts;
@@ -7,6 +10,11 @@ using Example.Domain.Entities;
 using Example.Helpers;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+
+using Newtonsoft.Json.Linq;
+
+using Swashbuckle.AspNetCore.Examples;
+
 using UnprocessableEntityObjectResult = Example.Api.Entities.UnprocessableEntityObjectResult;
 
 namespace Example.Api.Controllers
@@ -57,17 +65,17 @@ namespace Example.Api.Controllers
         /// </summary>
         /// <remarks>
         /// Sample request:
-        ///
         ///     POST /users
         ///     {
         ///        "lastname": "Norris",
         ///        "firstname": "Chuck",
         ///        "birthdate": "1940-03-10"
         ///     }
-        ///
         /// </remarks>
         /// <param name="userForCreationDto">The user to create</param>
         /// <returns>A http response</returns>
+        [SwaggerRequestExample(typeof(UserForCreationDto), typeof(UserForCreationExample))]
+        [SwaggerResponseExample(201, null)]
         [HttpPost]
         public IActionResult CreateUser([FromBody]UserForCreationDto userForCreationDto)
         {
@@ -86,5 +94,27 @@ namespace Example.Api.Controllers
 
             return this.Created($"{this.Request.Path.Value}/{user.Id}", user);
         }
+    }
+
+    /// <summary>
+    /// An example for the user creation example payload.
+    /// </summary> 
+    /// <seealso cref="T:Swashbuckle.AspNetCore.Examples.IExamplesProvider" />
+    public class UserForCreationExample : UserForCreationDto, IExamplesProvider
+    {
+        public UserForCreationExample()
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+            var textStreamReader = new StreamReader(assembly.GetManifestResourceStream("Example.Api.Swagger.Payloads.UserForCreationDto.json"));
+            this.Data = textStreamReader.ReadToEnd();
+        }
+
+        /// <inheritdoc />
+        public object GetExamples()
+        {
+            return JObject.Parse(this.Data).ToObject<UserForCreationDto>();
+        }
+
+        public string Data { get; set; }
     }
 }
