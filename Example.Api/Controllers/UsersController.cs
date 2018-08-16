@@ -111,26 +111,4 @@ namespace Example.Api.Controllers
             return this.Created($"{this.Request.Path.Value}/{user.Id}", user);
         }
     }
-
-    /// <summary>
-    /// An example for the user creation example payload.
-    /// </summary> 
-    /// <seealso cref="T:Swashbuckle.AspNetCore.Examples.IExamplesProvider" />
-    public class UserForCreationExample : UserForCreationDto, IExamplesProvider
-    {
-        public UserForCreationExample()
-        {
-            var assembly = Assembly.GetExecutingAssembly();
-            var textStreamReader = new StreamReader(assembly.GetManifestResourceStream("Example.Api.Swagger.Payloads.UserForCreationDto.json"));
-            this.Data = textStreamReader.ReadToEnd();
-        }
-
-        /// <inheritdoc />
-        public object GetExamples()
-        {
-            return JObject.Parse(this.Data).ToObject<UserForCreationDto>();
-        }
-
-        public string Data { get; set; }
-    }
 }
