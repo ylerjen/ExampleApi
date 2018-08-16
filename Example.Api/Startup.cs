@@ -42,6 +42,7 @@ namespace Example.Api
                     {
                         setupAction.ReturnHttpNotAcceptable = true;
                         setupAction.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter());
+                        setupAction.InputFormatters.Add(new XmlDataContractSerializerInputFormatter());
                     });
             services.AddScoped<IUsersService>(provider => new UsersService(new DateTimeProvider(), new UsersRepository()));
             services.AddScoped<IEventsService>(provider => new EventsService(new EventsRepository()));
