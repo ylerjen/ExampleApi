@@ -1,6 +1,11 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
+using Example.Domain.Entities;
+
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+
 namespace Example.Api.Contracts
 {
     /// <summary>
@@ -21,5 +26,12 @@ namespace Example.Api.Contracts
 
         [DataType(DataType.Date)]
         public DateTime Birthdate { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the user's gender
+        /// </summary>
+        /// <value>M or F</value>
+        [JsonConverter(typeof(StringEnumConverter))]
+        public Gender Gender { get; set; }
     }
 }

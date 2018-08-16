@@ -70,8 +70,10 @@ namespace Example.Api
 
             AutoMapper.Mapper.Initialize(cfg =>
             {
-                cfg.CreateMap<User, UserDto>();
-                cfg.CreateMap<UserForCreationDto, User>();
+                cfg.CreateMap<User, UserDto>()
+                    .ForMember(destUser => destUser.Gender, opt => opt.MapFrom(src => src.Gender));
+                cfg.CreateMap<UserForCreationDto, User>()
+                    .ForMember(destUser => destUser.Gender, opt => opt.MapFrom(src => src.Gender));
             });
             
             // Enable middleware to serve generated Swagger as a JSON endpoint.
