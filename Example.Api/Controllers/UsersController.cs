@@ -1,17 +1,14 @@
 ﻿using System;
-using System.IO;
-using System.Reflection;
 
 using AutoMapper;
 using Example.Api.Commands;
 using Example.Api.Contracts;
+using Example.Api.Swagger.Examples;
 using Example.Business.Services;
 using Example.Domain.Entities;
 using Example.Helpers;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-
-using Newtonsoft.Json.Linq;
 
 using Swashbuckle.AspNetCore.Examples;
 
@@ -57,6 +54,7 @@ namespace Example.Api.Controllers
         /// </summary>
         /// <param name="id">The guid of the user <example>0ec5e125-5eee-4102-b48d-011a600fd74a</example></param>
         /// <returns>The <see cref="IActionResult"/> containing the user payload.</returns>
+        [SwaggerResponseExample(201, typeof(UserDto))]
         [HttpGet]
         [Route("{id}")]
         public IActionResult GetUser(Guid id)
