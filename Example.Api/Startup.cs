@@ -11,6 +11,8 @@ using Example.Api.Contracts;
 using Example.Helpers;
 using Example.Api.Middlewares;
 
+using Microsoft.AspNetCore.Mvc.Formatters;
+
 using Swashbuckle.AspNetCore.Examples;
 using Swashbuckle.AspNetCore.Swagger;
 
@@ -35,7 +37,12 @@ namespace Example.Api
                 var corsMw = new CorsMiddleware(opts);
                 corsMw.AddAllowAllOriginsPolicy();
             });
-            services.AddMvc();
+            services.AddMvc(
+                setupAction =>
+                    {
+                        setupAction.ReturnHttpNotAcceptable = true;
+                        setupAction.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter());
+                    });
             services.AddScoped<IUsersService>(provider => new UsersService(new DateTimeProvider(), new UsersRepository()));
             services.AddScoped<IEventsService>(provider => new EventsService(new EventsRepository()));
 
