@@ -19,12 +19,22 @@ using UnprocessableEntityObjectResult = Example.Api.Entities.UnprocessableEntity
 
 namespace Example.Api.Controllers
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// The users controller handle all requests about the users.
+    /// </summary>
     [Route("api/users")]
     [EnableCors("AllowSpecificOrigin")]
     public class UsersController : Controller
     {
         private IUsersService UsersServices { get; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UsersController"/> class.
+        /// </summary>
+        /// <param name="usersServices">
+        /// The users services.
+        /// </param>
         public UsersController(IUsersService usersServices)
         {
             this.UsersServices = usersServices;
@@ -33,7 +43,7 @@ namespace Example.Api.Controllers
         /// <summary>
         /// Get the list of existing users. This list use a paging system.
         /// </summary>
-        /// <param name="usersResourceParameter"></param>
+        /// <param name="usersResourceParameter">This is the resource Parameter passed in the http header that are automatically set into this value by .net core</param>
         /// <returns>The list of users found</returns>
         [HttpGet]
         public IActionResult GetUserList(UsersResourceParameter usersResourceParameter)
@@ -42,6 +52,11 @@ namespace Example.Api.Controllers
             return this.Ok(userList);
         }
 
+        /// <summary>
+        /// Get a single user by its Id
+        /// </summary>
+        /// <param name="id">The guid of the user <example>0ec5e125-5eee-4102-b48d-011a600fd74a</example></param>
+        /// <returns>The <see cref="IActionResult"/> containing the user payload.</returns>
         [HttpGet]
         [Route("{id}")]
         public IActionResult GetUser(Guid id)
@@ -50,6 +65,7 @@ namespace Example.Api.Controllers
             {
                 return this.BadRequest();
             }
+
             if (!this.UsersServices.UserExists(id))
             {
                 return this.NotFound($"User with id {id} not found");
@@ -79,7 +95,7 @@ namespace Example.Api.Controllers
         [HttpPost]
         public IActionResult CreateUser([FromBody]UserForCreationDto userForCreationDto)
         {
-            if(userForCreationDto == null)
+            if (userForCreationDto == null)
             {
                 return this.BadRequest();
             }
