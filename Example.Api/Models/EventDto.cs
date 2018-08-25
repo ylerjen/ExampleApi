@@ -1,16 +1,17 @@
 ﻿using Example.Domain.Entities;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
-namespace Example.Api.Contracts
+namespace Example.Api.Models
 {
     public class EventDto
     {
 
         public Guid Id { get; set; }
 
+        [Required]
+        [StringLength(60, MinimumLength = 2)]
         public string Title { get; set; }
 
         public Guid AuthorId { get; set; }

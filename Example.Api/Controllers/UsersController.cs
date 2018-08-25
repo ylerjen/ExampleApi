@@ -1,7 +1,7 @@
 ﻿using System;
 using AutoMapper;
 using Example.Api.Commands;
-using Example.Api.Contracts;
+using Example.Api.Models;
 using Example.Business.Services;
 using Example.Domain.Entities;
 using Example.Helpers;

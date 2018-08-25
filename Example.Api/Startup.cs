@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Example.Repository.Repositories;
 using Example.Api.Commands;
-using Example.Api.Contracts;
+using Example.Api.Models;
 using Example.Helpers;
 using Example.Api.Middlewares;
 using Swashbuckle.AspNetCore.Swagger;
