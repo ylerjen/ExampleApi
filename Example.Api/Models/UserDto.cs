@@ -12,7 +12,7 @@ namespace Example.Api.Models
     /// The User object used for data transfert.
     /// Data validation is following the MS recommandation here <see cref="https://docs.microsoft.com/en-us/aspnet/core/tutorials/first-mvc-app/validation?view=aspnetcore-2.1"/>
     /// </summary>
-    public class UserDto
+    public class UserDto : LinkedResourceBaseDto
     {
         public Guid Id { get; set; }
 
