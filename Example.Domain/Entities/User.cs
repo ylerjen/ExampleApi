@@ -24,6 +24,8 @@ namespace Example.Domain.Entities
 
         public DateTime Birthdate { get; set; }
 
+        public Gender Gender { get; set; }
+
         public string Descr { get; set; } = string.Empty;
     }
 }

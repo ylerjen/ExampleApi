@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using Example.Business.Services;
-using Example.Domain.Entities;
-using Microsoft.AspNetCore.Mvc;
-
-namespace Example.Api.Controllers
+﻿namespace Example.Api.Controllers
 {
+    using System;
+    using System.Linq;
+
+    using Example.Business.Services;
+
+    using Microsoft.AspNetCore.Mvc;
+
     [Route("api/events")]
     public class EventsController : Controller
     {

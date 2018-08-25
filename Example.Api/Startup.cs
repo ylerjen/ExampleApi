@@ -10,6 +10,10 @@ using Example.Api.Commands;
 using Example.Api.Models;
 using Example.Helpers;
 using Example.Api.Middlewares;
+
+using Microsoft.AspNetCore.Mvc.Formatters;
+
+using Swashbuckle.AspNetCore.Examples;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace Example.Api
@@ -33,7 +37,13 @@ namespace Example.Api
                 var corsMw = new CorsMiddleware(opts);
                 corsMw.AddAllowAllOriginsPolicy();
             });
-            services.AddMvc();
+            services.AddMvc(
+                setupAction =>
+                    {
+                        setupAction.ReturnHttpNotAcceptable = true;
+                        setupAction.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter());
+                        setupAction.InputFormatters.Add(new XmlDataContractSerializerInputFormatter());
+                    });
             services.AddScoped<IUsersService>(provider => new UsersService(new DateTimeProvider(), new UsersRepository()));
             services.AddScoped<IEventsService>(provider => new EventsService(new EventsRepository()));
 
@@ -41,7 +51,7 @@ namespace Example.Api
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "Example API", Version = "v1" });
-                //c.SwaggerDoc("Edge", new Info { Title = "Example API", Version = ApiVersion.ToString() });
+                c.OperationFilter<ExamplesOperationFilter>();
             });
         }
 
@@ -60,8 +70,10 @@ namespace Example.Api
 
             AutoMapper.Mapper.Initialize(cfg =>
             {
-                cfg.CreateMap<User, UserDto>();
-                cfg.CreateMap<UserForCreationDto, User>();
+                cfg.CreateMap<User, UserDto>()
+                    .ForMember(destUser => destUser.Gender, opt => opt.MapFrom(src => src.Gender));
+                cfg.CreateMap<UserForCreationDto, User>()
+                    .ForMember(destUser => destUser.Gender, opt => opt.MapFrom(src => src.Gender));
             });
             
             // Enable middleware to serve generated Swagger as a JSON endpoint.
