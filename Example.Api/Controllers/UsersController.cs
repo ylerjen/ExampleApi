@@ -1,12 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using AutoMapper;
 using Example.Api.Commands;
+using Example.Api.Helpers;
 using Example.Api.Models;
 using Example.Api.Swagger.Examples;
 using Example.Business.Services;
 using Example.Domain.Entities;
-using Example.Helpers;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,29 +25,77 @@ namespace Example.Api.Controllers
     [EnableCors("AllowSpecificOrigin")]
     public class UsersController : Controller
     {
-        private IUsersService UsersServices { get; }
-
+        private readonly IUrlHelper urlHelper;
+        private readonly IUsersService usersServices;
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="UsersController"/> class.
         /// </summary>
-        /// <param name="usersServices">
-        /// The users services.
-        /// </param>
-        public UsersController(IUsersService usersServices)
+        /// <param name="usersServices">The users services.</param>
+        public UsersController(IUsersService injectedUsersServices, IUrlHelper injectedUrlHelper)
         {
-            this.UsersServices = usersServices;
+            this.usersServices = injectedUsersServices;
+            this.urlHelper = injectedUrlHelper;
         }
 
         /// <summary>
-        /// Get the list of existing users. This list use a paging system.
+        /// Get the list of existing users.
+        /// This list use a paging system which is automatically serialized to <see cref="ResourceParameter"/> by dotnetcore.
         /// </summary>
         /// <param name="usersResourceParameter">This is the resource Parameter passed in the http header that are automatically set into this value by .net core</param>
+        /// <param name="resourceParameter"></param>
         /// <returns>The list of users found</returns>
-        [HttpGet]
-        public IActionResult GetUserList(UsersResourceParameter usersResourceParameter)
+        [HttpGet(Name = nameof(GetUserList))]
+        public IActionResult GetUserList(ResourceParameter resourceParameter)
         {
-            var userList = this.UsersServices.GetUsersList(usersResourceParameter.PageNumber, usersResourceParameter.PageSize);
-            return this.Ok(userList);
+            var userList = Mapper.Map<IEnumerable<UserDto>>(this.usersServices.GetUsersList(resourceParameter.PageNumber, resourceParameter.PageSize));
+            var pagedList = PagedList<UserDto>.Create(
+                userList,
+                resourceParameter.PageNumber,
+                resourceParameter.PageSize);
+            var previousPageLink = pagedList.HasPrevious
+                ? this.CreateUserResourceUri(resourceParameter, ResourceUriType.PreviousPage)
+                : null;
+            var nextPageLink = pagedList.HasNext
+                ? this.CreateUserResourceUri(resourceParameter, ResourceUriType.NextPage)
+                : null;
+
+            var paginationMetadata = new PaginationMetadata(
+                pagedList.TotalCount,
+                pagedList.PageSize,
+                pagedList.CurrentPage,
+                pagedList.TotalPages,
+                previousPageLink,
+                nextPageLink);
+
+            this.Response.Headers.Add("X-Pagination", Newtonsoft.Json.JsonConvert.SerializeObject(paginationMetadata));
+
+            return this.Ok(pagedList);
+        }
+
+        private string CreateUserResourceUri(ResourceParameter param, ResourceUriType type)
+        {
+            switch (type)
+            {
+                case ResourceUriType.PreviousPage:
+                    return this.urlHelper.Link(nameof(this.GetUserList), new
+                    {
+                        pageNumber = param.PageNumber - 1,
+                        pageSize = param.PageSize
+                    });
+                case ResourceUriType.NextPage:
+                    return this.urlHelper.Link(nameof(this.GetUserList), new
+                    {
+                        pageNumber = param.PageNumber + 1,
+                        pageSize = param.PageSize
+                    });
+                default:
+                    return this.urlHelper.Link(nameof(this.GetUserList), new
+                    {
+                        pageNumber = param.PageNumber,
+                        pageSize = param.PageSize
+                    });
+            }
         }
 
         /// <summary>
@@ -64,12 +113,12 @@ namespace Example.Api.Controllers
                 return this.BadRequest();
             }
 
-            if (!this.UsersServices.UserExists(id))
+            if (!this.usersServices.UserExists(id))
             {
                 return this.NotFound($"User with id {id} not found");
             }
 
-            var user = this.UsersServices.GetUserById(id);
+            var user = this.usersServices.GetUserById(id);
             var userDto = Mapper.Map<UserDto>(user);
             return this.Ok(userDto);
         }
@@ -104,7 +153,7 @@ namespace Example.Api.Controllers
             }
 
             var user = Mapper.Map<User>(userForCreationDto);
-            this.UsersServices.CreateUser(user);
+            this.usersServices.CreateUser(user);
 
             return this.Created($"{this.Request.Path.Value}/{user.Id}", user);
         }

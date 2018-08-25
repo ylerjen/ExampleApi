@@ -3,6 +3,10 @@ using Example.Domain.Entities;
 using Example.Business.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Example.Repository.Repositories;
@@ -10,8 +14,6 @@ using Example.Api.Commands;
 using Example.Api.Models;
 using Example.Helpers;
 using Example.Api.Middlewares;
-
-using Microsoft.AspNetCore.Mvc.Formatters;
 
 using Swashbuckle.AspNetCore.Examples;
 using Swashbuckle.AspNetCore.Swagger;
@@ -46,6 +48,14 @@ namespace Example.Api
                     });
             services.AddScoped<IUsersService>(provider => new UsersService(new DateTimeProvider(), new UsersRepository()));
             services.AddScoped<IEventsService>(provider => new EventsService(new EventsRepository()));
+
+            services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
+            services.AddScoped<IUrlHelper, UrlHelper>(implementationFactory =>
+            {
+                var actionContext = implementationFactory.GetService<IActionContextAccessor>().ActionContext;
+                return new UrlHelper(actionContext);
+
+            });
 
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
