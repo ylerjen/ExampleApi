@@ -28,7 +28,7 @@ namespace Example.Business.Services
             return this.UsersRepository.GetUserById(id);
         }
 
-        public List<User> GetUsersList(int skip, int length)
+        public List<User> GetUsersList(uint skip, uint length)
         {
             return this.UsersRepository.GetUsersList(skip, length);
         }

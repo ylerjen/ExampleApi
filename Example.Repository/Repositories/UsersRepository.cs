@@ -15,12 +15,12 @@ namespace Example.Repository.Repositories
             new User(new Guid("5335b7a4-e4b3-4129-8c05-df50f0aad1e1"), "Wilson", "Wade", new DateTime(1991, 2, 4)){ Username = "Deadpool", Descr = "Well..." },
             new User(new Guid("27b3623a-8f75-40f3-9313-884ad7f7b50b"), "Allen", "Barry", new DateTime(1940, 1, 9)){ Username = "Flash", Descr = "Look, a... ! Too late..." }
         };
-
-        public List<User> GetUsersList(int skip, int length)
+    
+        public List<User> GetUsersList(uint skip, uint length)
         {
             return this.userList
-                .Skip(skip * length)
-                .Take(length)
+                .Skip((int)(skip * length))
+                .Take((int)length)
                 .ToList();
         }
 

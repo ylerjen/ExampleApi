@@ -16,7 +16,7 @@ namespace Example.Business.Services
         /// <param name="skip">is the number of pages we want to skip. Page length is based on the length param</param>
         /// <param name="length">is the number of item we want to return</param>
         /// <returns>The list of user found</returns>
-        List<User> GetUsersList(int skip, int length);
+        List<User> GetUsersList(uint skip, uint length);
 
         User CreateUser(User user);
 
