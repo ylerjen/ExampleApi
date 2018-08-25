@@ -22,6 +22,8 @@ namespace Example.Domain.Entities
 
         public string Firstname { get; set; }
 
+        public string Username { get; set; }
+
         public DateTime Birthdate { get; set; }
 
         public Gender Gender { get; set; }
