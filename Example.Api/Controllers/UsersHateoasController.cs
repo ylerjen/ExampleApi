@@ -12,12 +12,12 @@ using System.Linq;
 namespace Example.Api.Controllers
 {
     [Route("hateoas-api/users")]
-    public class UsersRestfulController : Controller
+    public class UsersHateoasController : Controller
     {        
         private readonly IUrlHelper urlHelper;
         private readonly IUsersService usersServices;
 
-        public UsersRestfulController(IUsersService injectedUsersServices, IUrlHelper injectedUrlHelper)
+        public UsersHateoasController(IUsersService injectedUsersServices, IUrlHelper injectedUrlHelper)
         {
             this.usersServices = injectedUsersServices;
             this.urlHelper = injectedUrlHelper;
@@ -47,11 +47,11 @@ namespace Example.Api.Controllers
                 nextPageLink);
 
             // add links on each retrieved user
-            userList = userList.Select(user => CreateLinksForUser(user));
+            userList = userList.Select(user => this.CreateLinksForUser(user));
 
             var wrapper = new LinkedCollectionResourceWrapperDto<UserDto>(userList);
 
-            return Ok(this.CreateLinksForUser(wrapper));
+            return this.Ok(this.CreateLinksForUser(wrapper));
         }
 
         [HttpGet("{id}", Name = nameof(GetHateoasUser))]
@@ -70,7 +70,7 @@ namespace Example.Api.Controllers
             var user = this.usersServices.GetUserById(id);
             var userDto = Mapper.Map<UserDto>(user);
             
-            return Ok(CreateLinksForUser(userDto));
+            return this.Ok(this.CreateLinksForUser(userDto));
         }
 
         /// <summary>
@@ -181,7 +181,7 @@ namespace Example.Api.Controllers
             LinkedCollectionResourceWrapperDto<UserDto> usersWrapper)
         {
             usersWrapper.Links.Add(
-                new LinkDto(urlHelper.Link(nameof(this.GetHateoasUserList), new { }),
+                new LinkDto(this.urlHelper.Link(nameof(this.GetHateoasUserList), new { }),
                 "self",
                 "GET"));
 
