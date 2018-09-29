@@ -13,8 +13,6 @@ using Microsoft.AspNetCore.Mvc;
 
 using Swashbuckle.AspNetCore.Examples;
 
-using UnprocessableEntityObjectResult = Example.Api.Entities.UnprocessableEntityObjectResult;
-
 namespace Example.Api.Controllers
 {
     /// <inheritdoc />
@@ -27,11 +25,12 @@ namespace Example.Api.Controllers
     {
         private readonly IUrlHelper urlHelper;
         private readonly IUsersService usersServices;
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="UsersController"/> class.
         /// </summary>
-        /// <param name="usersServices">The users services.</param>
+        /// <param name="injectedUsersServices">The users services.</param>
+        /// <param name="injectedUrlHelper">The url helper from the dotnet framework</param>
         public UsersController(IUsersService injectedUsersServices, IUrlHelper injectedUrlHelper)
         {
             this.usersServices = injectedUsersServices;
@@ -42,8 +41,7 @@ namespace Example.Api.Controllers
         /// Get the list of existing users.
         /// This list use a paging system which is automatically serialized to <see cref="ResourceParameter"/> by dotnetcore.
         /// </summary>
-        /// <param name="usersResourceParameter">This is the resource Parameter passed in the http header that are automatically set into this value by .net core</param>
-        /// <param name="resourceParameter"></param>
+        /// <param name="resourceParameter">This is the resource Parameter passed in the http header that are automatically set into this value by .net core</param>
         /// <returns>The list of users found</returns>
         [HttpGet(Name = nameof(GetUserList))]
         public IActionResult GetUserList(ResourceParameter resourceParameter)
