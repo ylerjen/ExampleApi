@@ -26,7 +26,8 @@ namespace Example.Api.Controllers
         [HttpGet(Name = nameof(GetHateoasUserList))]
         public IActionResult GetHateoasUserList(ResourceParameter resourceParameter)
         {
-            var userList = Mapper.Map<IEnumerable<UserDto>>(this.usersServices.GetUsersList(resourceParameter.PageNumber, resourceParameter.PageSize));
+            var skip = (resourceParameter.PageNumber > 0) ? resourceParameter.PageNumber - 1 : 0;
+            var userList = Mapper.Map<IEnumerable<UserDto>>(this.usersServices.GetUsersList(skip, resourceParameter.PageSize));
             var pagedList = PagedList<UserDto>.Create(
                 userList,
                 resourceParameter.PageNumber,
