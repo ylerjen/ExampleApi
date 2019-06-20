@@ -10,6 +10,7 @@ using Xunit;
 using Example.Business.Services;
 using Example.Domain.Entities;
 using Example.Helpers;
+using Microsoft.AspNetCore.Mvc.Routing;
 
 namespace Example.Api.Tests.Unit
 {
