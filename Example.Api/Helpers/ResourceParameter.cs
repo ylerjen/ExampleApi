@@ -7,8 +7,8 @@
         /// <summary>
         /// The page number we want to display
         /// </summary>
-        /// <value>The first page is equal 1, not 0</value>
-        public uint PageNumber { get; set; } = 1;
+        /// <value>The first page is equal 0</value>
+        public uint PageNumber { get; set; } = 0;
 
         private uint pageSize = 10;
 
