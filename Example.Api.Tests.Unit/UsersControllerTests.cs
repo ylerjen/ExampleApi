@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 
 using Example.Api.Controllers;
-
+using Example.Api.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;
@@ -17,6 +17,7 @@ namespace Example.Api.Tests.Unit
     public class UsersControllerTests
     {
         private Mock<IUsersService> usersServiceMock { get; set; }
+        private Mock<IUrlHelper> urlHelperMock { get; set; }
 
         public UsersControllerTests()
         {
@@ -24,6 +25,7 @@ namespace Example.Api.Tests.Unit
 
             // Create a mock using the repository settings
             this.usersServiceMock = repository.Create<IUsersService>();
+            this.urlHelperMock = repository.Create<IUrlHelper>();
         }
 
         [Fact]
@@ -33,8 +35,12 @@ namespace Example.Api.Tests.Unit
             this.usersServiceMock
                 .Setup(m => m.GetUsersList(1, 1))
                 .Returns(new List<User>());
-            var authorsCtrlr = new UsersController(this.usersServiceMock.Object);
-            var usersResourceParameter = new UsersResourceParameter
+            this.urlHelperMock
+                .Setup(m => m.Link(It.IsAny<string>(), It.IsAny<object>()))
+                .Returns("http://api.example.org/fake");
+
+            var authorsCtrlr = new UsersController(this.usersServiceMock.Object, this.urlHelperMock.Object);
+            var usersResourceParameter = new ResourceParameter
                                              {
                                                  PageNumber = 1,
                                                  PageSize = 10
@@ -54,7 +60,11 @@ namespace Example.Api.Tests.Unit
             this.usersServiceMock
                 .Setup(m => m.GetUsersList(1, 10))  // will set up CommandBase.Execute
                 .Returns(new List<User>());
-            var authorsCtrlr = new UsersController(this.usersServiceMock.Object);
+            this.urlHelperMock
+                .Setup(m => m.Link(It.IsAny<string>(), It.IsAny<object>()))
+                .Returns("http://api.example.org/fake");
+
+            var authorsCtrlr = new UsersController(this.usersServiceMock.Object, this.urlHelperMock.Object);
 
             // Act
             var result = authorsCtrlr.GetUser(Guid.Empty);
